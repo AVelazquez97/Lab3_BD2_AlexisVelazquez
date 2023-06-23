@@ -1,42 +1,34 @@
-#include <mysql_driver.h> 
-#include <mysql_connection.h>
-#include <cppconn/resultset.h>
-#include <cppconn/statement.h>
+#ifndef PERSISTENCY_MYSQLCONNECTOR_H_
+#define PERSISTENCY_MYSQLCONNECTOR_H_
 
 #include <iostream>
-#include <string.h>
-using namespace sql;
 using namespace std;
+
+#define NC "\e[0m"
+#define RED "\e[0;31m"
+#define GREEN "\e[0;32m"
+#define CYAN "\e[0;36m"
+#define REDB "\e[41m"
+
+#include <mysql_driver.h> 
+#include <mysql_connection.h>
+
 
 class MySQLConnector {
     private:
-        mysql::MySQL_Driver *driver;
-        Connection *connection;
+        sql::mysql::MySQL_Driver *driver;
+        sql::Connection *connection;
+        string host = "tcp://localhost:3306";
+        string user = "tecnologo";
+        string password = "tecnologo";
+        string database = "biblioteca";
 
     public:
-        MySQLConnector(const string& host, const string& user, const string& password, const string& database) {
-            driver = mysql::get_mysql_driver_instance();
-            connection = driver->connect(host, user, password);
-            connection->setSchema(database);
-        }
+        MySQLConnector();
 
-        ~MySQLConnector() {
-            delete connection;
-        }
-
-        // Implementa aquí tus métodos para interactuar con la base de datos
-
+        sql::Connection* getConnection();
+        
+        ~MySQLConnector();
 };
 
-// int main() {
-//     std::string host = "tcp://localhost:3306";
-//     std::string user = "tecnologo";
-//     std::string password = "tecnologo";
-//     std::string database = "biblioteca";
-
-//     MySQLConnector connector(host, user, password, database);
-
-//     // Aquí puedes utilizar la instancia de `connector` para realizar operaciones en la base de datos
-
-//     return 0;
-// }
+#endif // PERSISTENCY_MYSQLCONNECTOR_H_

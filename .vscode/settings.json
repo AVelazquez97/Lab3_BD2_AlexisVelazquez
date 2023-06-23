@@ -41,6 +41,14 @@
     "stdexcept": "cpp",
     "streambuf": "cpp",
     "typeinfo": "cpp",
-    "ctime": "cpp"
+    "ctime": "cpp",
+    "chrono": "cpp",
+    "list": "cpp",
+    "functional": "cpp",
+    "iterator": "cpp",
+    "map": "cpp",
+    "ratio": "cpp",
+    "thread": "cpp",
+    "cinttypes": "cpp"
   }
 }

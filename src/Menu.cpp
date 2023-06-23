@@ -4,12 +4,6 @@ using namespace std;
 #include <cmath>
 #include <cstring>
 
-#define NC "\e[0m"
-#define RED "\e[0;31m"
-#define GREEN "\e[0;32m"
-#define CYAN "\e[0;36m"
-#define REDB "\e[41m"
-
 #include "Menu.h"
 #include "datatypes/DTBook.h"
 #include "iController/IController.h"
@@ -66,29 +60,33 @@ int Menu::selectOption() {
 void Menu::toContinue(){
 	cout << CYAN "Presiona ENTER para continuar..." NC;
 	getchar();
+}
+
+void Menu::insertBook() {
+	controller->insertABook();
+	getchar();
+}
+
+void Menu::deleteBook() {
+	controller->deleteBookByISBN();
+	getchar();
+}
+
+void Menu::updateBook() {
+	controller->updateBookByISBN();
+	getchar();
+}
+
+void Menu::viewBook() {
+	controller->getBookByISBN();
+	getchar();
+}
+
+void Menu::viewBooks() {
+	controller->viewAllBooks();
 	getchar();
 }
 
 void Menu::exit() {
 	cout << endl << endl<< CYAN "Has terminado la ejecución del CRUD. Hasta luego." NC << endl << endl;
-}
-
-void Menu::insertBook() {
-	controller->insertABook();
-}
-
-void Menu::deleteBook() {
-	controller->deleteABook();
-}
-
-void Menu::updateBook() {
-	controller->updateABook();
-}
-
-void Menu::viewBook() {
-	controller->viewABook();
-}
-
-void Menu::viewBooks() {
-	controller->viewAllBooks();
 }

@@ -17,10 +17,11 @@ class IController {
 
 		// En esta sección se definen todas las operaciones que están definidas en el controlador. 
 		// Deben ser virtuales e igualadas a 0
+        virtual bool findBookByISBN() = 0; // Operación auxiliar
         virtual void insertABook() = 0;
-        virtual void deleteABook() = 0;
-        virtual void updateABook() = 0;
-        virtual DTBook viewABook() = 0;
+        virtual void deleteBookByISBN() = 0;
+        virtual void updateBookByISBN() = 0;
+        virtual DTBook getBookByISBN() = 0;
 	    virtual DTBook** viewAllBooks() = 0;
 };
 

@@ -3,21 +3,23 @@
 
 #include "../iController/IController.h"
 #include "../models/Book.h"
-#include <string.h>
+#include "../persistency/BookDAL.h"
 
 class BookController: public IController {
 	private:
         BookController();
         static BookController* instance;
+		BookDAL* bookDAL;
 
 	public:
         ~BookController();
         static BookController* getInstance();
-		void insertABook(); 
-        void deleteABook();
-        void updateABook();
-        DTBook viewABook();
-	    DTBook** viewAllBooks();
+		bool findBookByISBN(); //Operación auxiliar
+        void insertABook(); 
+        void deleteBookByISBN();
+        void updateBookByISBN();
+        DTBook getBookByISBN();
+        DTBook** viewAllBooks();
 };
     
 #endif // BOOKCONTROLLER_H_

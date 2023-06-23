@@ -1,6 +1,5 @@
-#include "BookController.h"
 #include <iostream>
-#include <stdlib.h>
+#include "BookController.h"
 using namespace std;
 
 #define NC "\e[0m"
@@ -12,7 +11,7 @@ using namespace std;
 BookController *BookController::instance = nullptr;
 
 BookController::BookController() {
-
+    this->bookDAL = new BookDAL();
 }
 
 BookController::~BookController() {
@@ -29,23 +28,27 @@ BookController *BookController::getInstance() {
     return instance;
 }
 
+bool BookController::findBookByISBN() {
+    this->bookDAL->findBookByISBN();
+}
+
 void BookController::insertABook() {
-    cout << endl << endl << RED "Sección de ingreso de un nuevo libro." NC << endl << endl;
+    this->bookDAL->insertABook();
 }
 
-void BookController::deleteABook() {
-    cout << endl << endl << RED "Borrar libro." NC << endl << endl;
+void BookController::deleteBookByISBN() {
+    this->bookDAL->deleteBookByISBN();
 }
 
-void BookController::updateABook() {
-    cout << endl << endl << RED "Actualizar libro." NC << endl << endl; 
+void BookController::updateBookByISBN() {
+    this->bookDAL->updateBookByISBN(); 
 }
 
-DTBook BookController::viewABook() {
-	cout << endl << endl << RED "Ver libro." NC << endl << endl;
+DTBook BookController::getBookByISBN() {
+	this->bookDAL->getBookByISBN();
 }
 
 DTBook** BookController::viewAllBooks() {
-	cout << endl << endl << RED "Ver libros." NC << endl << endl;
+    this->bookDAL->getAllBooks();
 }
 	

@@ -1,10 +1,8 @@
 - Instalación de MySQL Server:
-
 	sudo apt update
 	sudo apt install mysql-server
 
 - Securización de MySQL Server (opcional):
-
 	El siguiente comando ayuda a configurar parámetros de seguridad al servidor de MySQL:
 	sudo mysql_secure_installation
 
@@ -14,7 +12,6 @@
 	+ Eliminar la base de datos de test.
 
 - Creación de la BD biblioteca y su usuario asignado "tecnologo":
-
 	CREATE DATABASE biblioteca;
 
 	CREATE USER tecnologo@localhost IDENTIFIED BY "tecnologo";
@@ -22,7 +19,6 @@
 	GRANT ALL PRIVILEGES ON biblioteca.* TO tecnologo@localhost WITH GRANT OPTION;
 
 - Creación de la tabla libro:
-
 	CREATE TABLE libro (
 		isbn VARCHAR(30) NOT NULL,
 		titulo VARCHAR(50) NULL,
@@ -33,10 +29,21 @@
 	) ENGINE = InnoDB;
 
 - Instalación del conector de MySQL para C++ en Ubuntu 18.04:
-	sudo apt install libmysqlcppconn-dev
+	Para instalar la librería del conector:
+		sudo apt install libmysqlcppconn-dev
+	
+	Luego se debe localizar la ruta de inclusión del conector instalado, esto es necesario para la compilación.
+	Con el siguiente comando se van a listar una serie de rutas en las cuales se encuentran los ficheros relacionados
+	al conector:
+		dpkg -L libmysqlcppconn-dev
+
+	En este caso, como se almacenaron en la ruta "/usr/include/", la misma se debe utilizar al momento de compilar el 
+	código fuente que dependa del conector. Por ejemplo: 
+		g++ -o main main.cpp -I/usr/include/ -lmysqlcppconn
+
+	En este caso, como el proceso de compilación es con make, una instrucción similar se agregará en el makefile.
 
 - Proceso de compilación:
-
 	Para este desarrollo se utiliza el compilador g++ y un fichero makefile.
 	Este fichero contiene las instrucciones de compilación y es ejecutado por la herramiente make.
 
@@ -50,8 +57,6 @@
 	en el directorio raíz.
 
 - Ejecución:
-
 	Teniendo compilado el proyecto, basta con posicionarse en el directorio raíz desde terminal y ejecutar el programa.
-	Esto se logra con la siguiente sentencia: 
-		
-	./crud
+	Esto se logra con el siguiente comando: 
+		./crud
