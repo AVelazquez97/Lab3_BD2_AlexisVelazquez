@@ -15,9 +15,9 @@ MySQLConnector::MySQLConnector(): driver(nullptr), connection(nullptr) {
         // Se intenta establecer la conexión a la base de datos
         this->connection = driver->connect(this->host, this->user, this->password);
         this->connection->setSchema(this->database);
+
     } catch (sql::SQLException& e) {
         cout << REDB "Error de MySQL: " << e.getErrorCode() << " - " << e.what() << "" NC << endl << endl;
-        delete this->connection;
         this->connection = nullptr;
         this->driver = nullptr;
     }

@@ -26,13 +26,13 @@ class BookController: public IController {
         static BookController* getInstance();
 
         /* Operaciones auxiliares */
-		bool findBookByISBN(); 
+		bool findBookByISBN(string isbn); 
         
         /* Operaciones solicitadas */
-        void insertABook(); 
-        void deleteBookByISBN();
-        void updateBookByISBN();
-        void getBookByISBN();
+        void createBook(DTBook newBook); 
+        void deleteBookByISBN(string isbn);
+        void updateBookByISBN(string isbn);
+        void getBookByISBN(string isbn);
         void getAllBooks();
 };
     

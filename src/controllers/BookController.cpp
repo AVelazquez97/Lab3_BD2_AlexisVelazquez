@@ -22,44 +22,44 @@ BookController *BookController::getInstance() {
 }
 
 /* Métodos auxiliares */
-bool BookController::findBookByISBN() {
+bool BookController::findBookByISBN(string isbn) {
     this->bookDAL = new BookDAL();
     string isbn = "";
     this->bookDAL->findBookByISBN(isbn);
-    delete bookDAL;
+    delete this->bookDAL;
 }
 
 /* Métodos solicitados */
-void BookController::insertABook() {
+void BookController::createBook(DTBook newBook) {
     this->bookDAL = new BookDAL();
     this->bookDAL->insertABook();
-    delete bookDAL;
+    delete this->bookDAL;
 }
 
-void BookController::deleteBookByISBN() {
+void BookController::deleteBookByISBN(string isbn) {
     this->bookDAL = new BookDAL();
     string isbn = "";
     this->bookDAL->deleteBookByISBN(isbn);
-    delete bookDAL;
+    delete this->bookDAL;
 }
 
-void BookController::updateBookByISBN() {
+void BookController::updateBookByISBN(string isbn) {
     this->bookDAL = new BookDAL();
     string isbn = "";
     this->bookDAL->updateBookByISBN(isbn); 
-    delete bookDAL;
+    delete this->bookDAL;
 }
 
-void BookController::getBookByISBN() {
+void BookController::getBookByISBN(string isbn) {
     this->bookDAL = new BookDAL();
     string isbn = "9781401952010";
 	this->bookDAL->getBookByISBN(isbn);
-    delete bookDAL;
+    delete this->bookDAL;
 }
 
 void BookController::getAllBooks() {
     this->bookDAL = new BookDAL();
     this->bookDAL->getAllBooks();
-    delete bookDAL;
+    delete this->bookDAL;
 }
 	

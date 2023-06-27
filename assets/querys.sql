@@ -25,20 +25,42 @@
 
 - Operaciones que se realizan sobre la tabla libro:
 	+ Insertar:
+		En caso de seleccionar la opción 1 (ingreso), deberá solicitar los datos correspondientes
+		desde el teclado y anexarlo a la tabla si no existe, en caso contrario se deberá mostrar
+		los datos y emitir el mensaje de error correspondiente.
+
 		INSERT INTO libro VALUES (isbn, newTitle, newEdition, newAuthor, newPagesQty);
 
 	+ Eliminar:
+		En caso de seleccionar la opción 2 (elimino), deberá solicitar el campo clave y verificar
+		su existencia, en caso que exista se deberá mostrar los datos para luego solicitarle al
+		usuario si lo desea eliminar, en caso que no exista se deberá emitir el correspondiente
+		mensaje de error.
+
 		DELETE FROM libro
 		WHERE isbn = 'isbnToDelete';
 
 	+ Modificar:
+		En caso de seleccionar la opción 3 (modifico), deberá solicitar el campo clave y verificar
+		su existencia, en caso que exista se deberá mostrar los datos para luego solicitarle al
+		usuario si lo desea modificar, (sólo se modifican los campos no claves) ingresando los
+		nuevos datos para luego modificarlos en la tabla. En caso que no exista se deberá
+		emitir el correspondiente mensaje de error.
+
 		UPDATE libro 
 		SET titulo = 'newTitle', edicion = 'newEdition', autor = 'newAuthor', cantPaginas = newPagesQty
 		WHERE isbn = 'isbnToModify';
 
 	+ Listar un libro:
+		En caso de seleccionar la opción 4 (consulto), deberá solicitar el campo clave y verificar
+		su existencia, en caso que exista se deberá mostrar los datos en caso que no exista se
+		deberá emitir el correspondiente mensaje de error.
+
 		SELECT * FROM libro 
 		WHERE isbn = 'isbnToShow';
 
 	+ Mostrar todos los libros:
+		En caso de seleccionar la opción 5 (listo), se mostrarán en forma de columna todos los
+		datos existentes en la tabla. (puede cambiar el orden si lo desea).
+		
 		SELECT * FROM libro;

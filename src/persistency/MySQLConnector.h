@@ -13,7 +13,6 @@ using namespace std;
 #include <mysql_driver.h> 
 #include <mysql_connection.h>
 
-
 class MySQLConnector {
     private:
         sql::mysql::MySQL_Driver* driver;

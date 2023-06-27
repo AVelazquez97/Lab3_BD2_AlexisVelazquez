@@ -17,13 +17,13 @@ class IController {
         virtual ~IController();
 
         /* Operaciones auxiliares */
-        virtual bool findBookByISBN() = 0;
+        virtual bool findBookByISBN(string isbn) = 0;
         
         /* Operaciones solicitadas */
-        virtual void insertABook() = 0;
-        virtual void deleteBookByISBN() = 0;
-        virtual void updateBookByISBN() = 0;
-        virtual void getBookByISBN() = 0;
+        virtual void createBook(DTBook newBook) = 0;
+        virtual void deleteBookByISBN(string isbn) = 0;
+        virtual void updateBookByISBN(string isbn) = 0;
+        virtual void getBookByISBN(string isbn) = 0;
 	    virtual void getAllBooks() = 0;
 };
 

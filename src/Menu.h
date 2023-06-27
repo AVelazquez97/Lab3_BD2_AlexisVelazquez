@@ -14,6 +14,7 @@ class Menu {
 	public:
 		static int selectOption();
 		static void toContinue();
+		static int getIntegerInput();
 		static void exit();
 
 		static void insertBook();
