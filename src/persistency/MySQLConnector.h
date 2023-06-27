@@ -18,10 +18,10 @@ class MySQLConnector {
     private:
         sql::mysql::MySQL_Driver* driver;
         sql::Connection* connection;
-        string host = "tcp://localhost:3306";
-        string user = "tecnologo";
-        string password = "tecnologo";
-        string database = "biblioteca";
+        string host;
+        string user;
+        string password;
+        string database;
 
     public:
         MySQLConnector();

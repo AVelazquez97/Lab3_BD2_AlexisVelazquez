@@ -26,34 +26,40 @@ bool BookController::findBookByISBN() {
     this->bookDAL = new BookDAL();
     string isbn = "";
     this->bookDAL->findBookByISBN(isbn);
+    delete bookDAL;
 }
 
 /* Métodos solicitados */
 void BookController::insertABook() {
     this->bookDAL = new BookDAL();
     this->bookDAL->insertABook();
+    delete bookDAL;
 }
 
 void BookController::deleteBookByISBN() {
     this->bookDAL = new BookDAL();
     string isbn = "";
     this->bookDAL->deleteBookByISBN(isbn);
+    delete bookDAL;
 }
 
 void BookController::updateBookByISBN() {
     this->bookDAL = new BookDAL();
     string isbn = "";
     this->bookDAL->updateBookByISBN(isbn); 
+    delete bookDAL;
 }
 
 void BookController::getBookByISBN() {
     this->bookDAL = new BookDAL();
     string isbn = "9781401952010";
 	this->bookDAL->getBookByISBN(isbn);
+    delete bookDAL;
 }
 
 void BookController::getAllBooks() {
     this->bookDAL = new BookDAL();
     this->bookDAL->getAllBooks();
+    delete bookDAL;
 }
 	

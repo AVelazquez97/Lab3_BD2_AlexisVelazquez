@@ -12,6 +12,7 @@
 - [3. Tecnologías utilizadas](#3-tecnologías-y-librerías-utilizadas)
 
 # Resúmen
+
 Esta es un proyecto universitario para Bases de Datos II. Asignatura que forma parte de la currícula del
 [Tecnólgo en Informática, carrera ofrecida por UTEC](https://utec.edu.uy/es/educacion/carrera/tecnologo-en-informatica/).
 
@@ -64,6 +65,7 @@ Este menú se visualiza de la siguiente manera:
 	+ Eliminar la base de datos de test.
 
 ## B. Creación de la base de datos
+
 - Ingreso a MySQL Server:
     `sudo mysql -h localhost -root -p`
 
@@ -92,25 +94,27 @@ Este menú se visualiza de la siguiente manera:
     ```
 
 ## C. Instalación del conector de MySQL
+
 - Descarga de la librería del conector en Ubuntu 18.04:
 		
     `sudo apt install libmysqlcppconn-dev`
 	
-- Luego se debe localizar la ruta de inclusión del conector instalado, esto es necesario para la compilación. Con el siguiente comando se van a listar una serie de rutas en las cuales se encuentran los ficheros relacionados al conector:
+- Luego se debe localizar la ruta de inclusión del conector instalado, esto es necesario para la compilación. 
+  Con el siguiente comando se van a listar una serie de rutas en las cuales se encuentran los ficheros relacionados al conector:
 
     `dpkg -L libmysqlcppconn-dev`
 
 - En este caso, como se almacenaron en la ruta "/usr/include/", la misma se debe utilizar al momento de compilar el 
-	código fuente que dependa del conector. Por ejemplo: 
+  código fuente que dependa del conector. Por ejemplo: 
 	
     `g++ -o main main.cpp -I/usr/include/ -lmysqlcppconn`
 
-Como el proceso de compilación es con make, una instrucción similar se agregó en el fichero makefile.
+  Como el proceso de compilación es con make, una instrucción similar se agregó en el fichero makefile.
 
 ## D. Descarga del proyecto desde GitHub
 
 - Para descargar el proyecto es necesario tener instalado Git. Luego, es suficiente con ingresar a la terminal e 
-ingresar el siguiente comando:
+  ingresar el siguiente comando:
 
   ```
   git clone https://github.com/AVelazquez97/Lab3_BD2_AlexisVelazquez.git
@@ -131,9 +135,8 @@ Para instalar la herramienta make es necesario ingresar los siguientes comandos 
 
 `sudo apt install build-essential make`
 
-Luego de instalar la herramienta, es necesario ingresar a la terminal.
-Posteriormente, posicionarse en el directorio raíz del proyecto e ingresar el comando "make". 
-Este, gracias al makefile, almacenará todos los ficheros .o en el directorio build, y el fichero "crud" compilado
+Luego de instalar la herramienta, es necesario posicionarse en el directorio raíz del proyecto e ingresar el comando "make". 
+Este, leerá el fichero makefile, almacenará todos los ficheros .o en el directorio build, y generará el fichero "crud" compilado
 en el directorio raíz.
 
 ## B. Ejecución

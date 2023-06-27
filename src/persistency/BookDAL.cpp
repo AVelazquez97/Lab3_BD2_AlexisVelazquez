@@ -7,11 +7,7 @@ BookDAL::BookDAL() {
 }
 
 BookDAL::~BookDAL() {
-    /* Se liberan los recursos utilizados por la clase */
-    delete this->result;          // Liberar el objeto ResultSet
-    delete this->statement;       // Liberar el objeto Statement
-    delete this->connection;      // Liberar el objeto Connection
-    delete this->dbConnector;     // Liberar el objeto MySQLConnector
+    delete this->dbConnector;
 }
 
 bool BookDAL::isConnectedToDB() {
@@ -62,6 +58,8 @@ void BookDAL::getBookByISBN(string isbn) {
                 cout << "Autor: " << this->result->getString("autor") << endl;
                 cout << "Total de Páginas: " << this->result->getInt("cantPaginas") << endl << endl;
             }
+            delete this->result;
+            delete this->statement;
         } catch (sql::SQLException &e) {
             cout << "Error de MySQL: " << e.getErrorCode() << " - " << e.what() << endl << endl;
         }
@@ -85,6 +83,8 @@ void BookDAL::getAllBooks() {
                 cout << "Total de Páginas: " << this->result->getInt("cantPaginas") << endl;
                 cout << GREEN "---------------------------------------------------------" NC << endl << endl;
             }
+            delete this->result;
+            delete this->statement;
         } catch (sql::SQLException &e) {
             cout << "Error de MySQL: " << e.getErrorCode() << " - " << e.what() << endl << endl;
         }
