@@ -26,7 +26,7 @@ En estos ficheros se realiza la implementación de un menú básico, el cual mue
 necesarias para invocar cada consulta.
 
 Este menú se visualiza de la siguiente manera:
-https://raw.githubusercontent.com/AVelazquez97/Lab3_BD2_AlexisVelazquez/blob/main/assets/img/menu_principal.png
+https://raw.githubusercontent.com/AVelazquez97/Lab3_BD2_AlexisVelazquez/main/assets/img/menu_principal.png
 
 - - -
 
@@ -46,7 +46,7 @@ https://raw.githubusercontent.com/AVelazquez97/Lab3_BD2_AlexisVelazquez/blob/mai
 
 	Esto da como respuesta:
     
-    https://raw.githubusercontent.com/AVelazquez97/Lab3_BD2_AlexisVelazquez/blob/main/assets/img/mysql_status.png
+    https://raw.githubusercontent.com/AVelazquez97/Lab3_BD2_AlexisVelazquez/main/assets/img/mysql_status.png
 
 	Si su estado no es active (running), se puede iniciar con el siguiente comando: 
 
