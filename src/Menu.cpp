@@ -9,9 +9,6 @@ using namespace std;
 #include "iController/IController.h"
 #include "factory/Factory.h"
 
-Factory fact;
-IController* controller = fact.getInterface();
-
 void Menu::viewMainMenu() {
 	system("clear");
 	cout << GREEN "╔════════════════╗" << endl;
@@ -57,33 +54,58 @@ int Menu::selectOption() {
 	return stoi(startString + addedString);
 }
 
-void Menu::toContinue(){
+void Menu::toContinue() {
 	cout << CYAN "Presiona ENTER para continuar..." NC;
 	getchar();
 }
 
 void Menu::insertBook() {
+	cout << CYAN "╔════════════════╗" << endl;
+	cout << "║ Insertar libro ║" << endl;
+	cout << "╚════════════════╝" NC << endl << endl;
+	Factory fact;
+	IController* controller = fact.getInterface();
 	controller->insertABook();
 	getchar();
 }
 
 void Menu::deleteBook() {
+	cout << CYAN "╔══════════════╗" << endl;
+	cout << "║ Borrar libro ║" << endl;
+	cout << "╚══════════════╝" NC << endl << endl;
+	Factory fact;
+	IController* controller = fact.getInterface();
 	controller->deleteBookByISBN();
 	getchar();
 }
 
 void Menu::updateBook() {
+	cout << CYAN "╔══════════════════╗" << endl;
+	cout << "║ Actualizar libro ║" << endl;
+	cout << "╚══════════════════╝" NC << endl << endl;
+	Factory fact;
+	IController* controller = fact.getInterface();
 	controller->updateBookByISBN();
 	getchar();
 }
 
 void Menu::viewBook() {
+	cout << CYAN "╔═══════════╗" << endl;
+	cout << "║ Ver libro ║" << endl;
+	cout << "╚═══════════╝" NC << endl << endl;
+	Factory fact;
+	IController* controller = fact.getInterface();
 	controller->getBookByISBN();
 	getchar();
 }
 
 void Menu::viewBooks() {
-	controller->viewAllBooks();
+	cout << CYAN "╔═══════════════════╗" << endl;
+	cout << "║ Listado de libros ║" << endl;
+	cout << "╚═══════════════════╝" NC << endl << endl;
+	Factory fact;
+	IController* controller = fact.getInterface();
+	controller->getAllBooks();
 	getchar();
 }
 

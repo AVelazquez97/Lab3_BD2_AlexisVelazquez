@@ -16,8 +16,8 @@ using namespace std;
 
 class MySQLConnector {
     private:
-        sql::mysql::MySQL_Driver *driver;
-        sql::Connection *connection;
+        sql::mysql::MySQL_Driver* driver;
+        sql::Connection* connection;
         string host = "tcp://localhost:3306";
         string user = "tecnologo";
         string password = "tecnologo";

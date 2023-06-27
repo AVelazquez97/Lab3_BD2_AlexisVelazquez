@@ -1,9 +1,8 @@
-#include <iostream>
 #include "MySQLConnector.h"
 
 using namespace std;
 
-MySQLConnector::MySQLConnector() {
+MySQLConnector::MySQLConnector(): driver(nullptr), connection(nullptr) {
     try {
         // Se intenta crear una instancia del controlador de MySQL
         this->driver = sql::mysql::get_mysql_driver_instance();
@@ -12,7 +11,10 @@ MySQLConnector::MySQLConnector() {
         this->connection = driver->connect(this->host, this->user, this->password);
         this->connection->setSchema(this->database);
     } catch (sql::SQLException& e) {
-        cout << REDB "Error de MySQL: " << e.getErrorCode() << " - " << e.what() << "" NC << endl;
+        delete this->connection;
+        this->connection = nullptr;
+        this->driver = nullptr;
+        cout << REDB "Error de MySQL: " << e.getErrorCode() << " - " << e.what() << "" NC << endl << endl;
     }
 }
 

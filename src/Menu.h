@@ -7,7 +7,7 @@
 #define CYAN "\e[0;36m"
 #define REDB "\e[41m"
 
-/// @brief Menú de interacción con el usuario. Capa de presentación
+/// @brief Menú de interacción con el usuario. Esta sería la abstracción de la capa de presentación
 class Menu {
 	private:
 		static void viewMainMenu();

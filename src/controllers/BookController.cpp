@@ -1,21 +1,14 @@
-#include <iostream>
 #include "BookController.h"
 using namespace std;
-
-#define NC "\e[0m"
-#define RED "\e[0;31m"
-#define GREEN "\e[0;32m"
-#define CYAN "\e[0;36m"
-#define REDB "\e[41m"
 
 BookController *BookController::instance = nullptr;
 
 BookController::BookController() {
-    this->bookDAL = new BookDAL();
 }
 
 BookController::~BookController() {
-
+    /* Se liberan los recursos utilizados por la clase */
+    delete this->bookDAL;  // Liberar la instancia del BookDAL
 }
 
 /// @brief implementación del singleton.
@@ -28,27 +21,39 @@ BookController *BookController::getInstance() {
     return instance;
 }
 
+/* Métodos auxiliares */
 bool BookController::findBookByISBN() {
-    this->bookDAL->findBookByISBN();
+    this->bookDAL = new BookDAL();
+    string isbn = "";
+    this->bookDAL->findBookByISBN(isbn);
 }
 
+/* Métodos solicitados */
 void BookController::insertABook() {
+    this->bookDAL = new BookDAL();
     this->bookDAL->insertABook();
 }
 
 void BookController::deleteBookByISBN() {
-    this->bookDAL->deleteBookByISBN();
+    this->bookDAL = new BookDAL();
+    string isbn = "";
+    this->bookDAL->deleteBookByISBN(isbn);
 }
 
 void BookController::updateBookByISBN() {
-    this->bookDAL->updateBookByISBN(); 
+    this->bookDAL = new BookDAL();
+    string isbn = "";
+    this->bookDAL->updateBookByISBN(isbn); 
 }
 
-DTBook BookController::getBookByISBN() {
-	this->bookDAL->getBookByISBN();
+void BookController::getBookByISBN() {
+    this->bookDAL = new BookDAL();
+    string isbn = "9781401952010";
+	this->bookDAL->getBookByISBN(isbn);
 }
 
-DTBook** BookController::viewAllBooks() {
+void BookController::getAllBooks() {
+    this->bookDAL = new BookDAL();
     this->bookDAL->getAllBooks();
 }
 	

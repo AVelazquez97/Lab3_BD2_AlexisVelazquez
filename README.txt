@@ -60,3 +60,18 @@
 	Teniendo compilado el proyecto, basta con posicionarse en el directorio raíz desde terminal y ejecutar el programa.
 	Esto se logra con el siguiente comando: 
 		./crud
+
+	Un aspecto a tener en cuenta es que si al ejecutar el crud, se lanza una excepción del siguiente estilo:
+
+	`Error de MySQL: 2003 - Can't connect to MySQL server on 'localhost' (111)`
+
+	Esto quiere decir que el proceso de MySQL está detenido, es posible chequearlo con el siguiente comando desde 
+	terminal:
+	
+	`sudo systemctl status mysql`
+
+	Dando como respuesta:
+
+	Si su estado no es active (running), como en la imágen, se puede iniciar con el siguiente comando: 
+	`sudo systemctl start mysql`
+
