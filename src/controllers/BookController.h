@@ -1,7 +1,6 @@
 #ifndef BOOKCONTROLLER_H_
 #define BOOKCONTROLLER_H_
 
-#include <iostream>
 #define NC "\e[0m"
 #define RED "\e[0;31m"
 #define GREEN "\e[0;32m"
@@ -9,8 +8,8 @@
 #define REDB "\e[41m"
 
 #include "../iController/IController.h"
-#include "../models/Book.h"
 #include "../persistency/BookDAL.h"
+#include "../models/Book.h"
 
 /// @brief el controlador realiza todas las operaciones del sistema.
 /// es en esta capa donde se desarrolla la lógica del programa, por 
@@ -20,20 +19,23 @@ class BookController: public IController {
         BookController();
         static BookController* instance;
 		BookDAL* bookDAL;
+        vector<DTBook*> bookList;
 
 	public:
         ~BookController();
         static BookController* getInstance();
 
         /* Operaciones auxiliares */
-		bool findBookByISBN(string isbn); 
+		bool findBookByISBN(string isbn);
+        void addBook(DTBook* book); // Agregar un libro a la lista
+        void removeBook(DTBook* book); // Eliminar un libro de la lista
         
         /* Operaciones solicitadas */
-        void createBook(DTBook newBook); 
-        void deleteBookByISBN(string isbn);
-        void updateBookByISBN(string isbn);
+        bool createBook(DTBook newBook); 
+        bool deleteBookByISBN(string isbn);
+        bool updateBookByISBN(string isbn);
         void getBookByISBN(string isbn);
-        void getAllBooks();
+        vector <DTBook*> getAllBooks();
 };
     
 #endif // BOOKCONTROLLER_H_

@@ -4,10 +4,14 @@ using namespace std;
 BookController *BookController::instance = nullptr;
 
 BookController::BookController() {
+
 }
 
 BookController::~BookController() {
     /* Se liberan los recursos utilizados por la clase */
+    for (auto book : bookList) {
+        delete book;
+    }
     delete this->bookDAL;  // Liberar la instancia del BookDAL
 }
 
@@ -23,43 +27,63 @@ BookController *BookController::getInstance() {
 
 /* Métodos auxiliares */
 bool BookController::findBookByISBN(string isbn) {
+    bool existBook = true;
     this->bookDAL = new BookDAL();
-    string isbn = "";
-    this->bookDAL->findBookByISBN(isbn);
+    existBook = this->bookDAL->findBookByISBN(isbn);
     delete this->bookDAL;
+    return existBook;
+}
+
+void BookController::addBook(DTBook* book) {
+    bookList.push_back(book);
+}
+
+void BookController::removeBook(DTBook* book) {
+    // Buscar y eliminar el libro de la lista
+    auto it = find(bookList.begin(), bookList.end(), book);
+    if (it != bookList.end()) {
+        bookList.erase(it);
+    }
 }
 
 /* Métodos solicitados */
-void BookController::createBook(DTBook newBook) {
+bool BookController::createBook(DTBook newBook) {
+    bool result;
+    Book* bookObj = new Book(newBook);
     this->bookDAL = new BookDAL();
-    this->bookDAL->insertABook();
+    result = this->bookDAL->insertABook(bookObj);
+    
     delete this->bookDAL;
+    delete bookObj;
+    return result;
 }
 
-void BookController::deleteBookByISBN(string isbn) {
+bool BookController::deleteBookByISBN(string isbn) {
+    bool result;
     this->bookDAL = new BookDAL();
-    string isbn = "";
     this->bookDAL->deleteBookByISBN(isbn);
+
     delete this->bookDAL;
+    return result;
 }
 
-void BookController::updateBookByISBN(string isbn) {
+bool BookController::updateBookByISBN(string isbn) {
     this->bookDAL = new BookDAL();
-    string isbn = "";
     this->bookDAL->updateBookByISBN(isbn); 
     delete this->bookDAL;
 }
 
 void BookController::getBookByISBN(string isbn) {
     this->bookDAL = new BookDAL();
-    string isbn = "9781401952010";
+    isbn = "9781401952010";
 	this->bookDAL->getBookByISBN(isbn);
     delete this->bookDAL;
 }
 
-void BookController::getAllBooks() {
+vector <DTBook*> BookController::getAllBooks() {
     this->bookDAL = new BookDAL();
     this->bookDAL->getAllBooks();
     delete this->bookDAL;
+    return this->bookList;
 }
 	

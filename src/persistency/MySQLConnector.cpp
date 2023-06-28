@@ -17,7 +17,7 @@ MySQLConnector::MySQLConnector(): driver(nullptr), connection(nullptr) {
         this->connection->setSchema(this->database);
 
     } catch (sql::SQLException& e) {
-        cout << REDB "Error de MySQL: " << e.getErrorCode() << " - " << e.what() << "" NC << endl << endl;
+        cout << endl << REDB "Error de MySQL: " << e.getErrorCode() << " - " << e.what() << "" NC << endl << endl;
         this->connection = nullptr;
         this->driver = nullptr;
     }

@@ -1,16 +1,9 @@
-using namespace std;
-#include <iostream>
-#include <stdio.h>
-#include <cmath>
-#include <cstring>
-
 #include "Menu.h"
-#include "datatypes/DTBook.h"
-#include "iController/IController.h"
-#include "factory/Factory.h"
 
-	Factory fact;
-	IController* controller = fact.getInterface();
+using namespace std;
+
+Factory fact;
+IController* controller = fact.getInterface();
 
 void Menu::viewMainMenu() {
 	system("clear");
@@ -23,6 +16,52 @@ void Menu::viewMainMenu() {
 	cout << "  4. Consulto" << endl;
 	cout << "  5. Listo" << endl;
 	cout << "  6. Fin" NC << endl;
+}
+
+/// @brief se modulariza las entradas de int del usuario. Se realiza una verificación de que sea int el dato ingresado
+/// @param prompt es el mensaje que se desea imprimir para el usuario 
+/// @return retorna el int ingresado por el usuario
+int Menu::getIntegerInput(const string& prompt) {
+    string input;
+    int number;
+
+    while (true) {
+        cout << endl << prompt;
+        getline(cin, input);
+
+        try {
+            number = stoi(input);
+            break; // Salir del bucle si la conversión fue exitosa
+        } catch (const exception& e) {
+            cout << endl << REDB "Error: No has ingresado un número entero." NC << endl;
+        }
+    }
+
+    return number;
+}
+
+/// @brief se modulariza las entradas de string del usuario
+/// @param prompt es el mensaje que se desea imprimir para el usuario 
+/// @return retorna la cadena de caracteres ingresada por el usuario
+string Menu::getStringInput(const string& prompt) {
+    string input;
+    cout << endl << prompt;
+    getline(cin, input);
+    return input;
+}
+
+/// @brief lo mismo que para la entrada de string pero en esta se valida que el string ingresado no sea vacío
+/// @param prompt es el mensaje que se desea imprimir para el usuario 
+/// @return retorna una cadena ingresada por el usuario no vacía
+string Menu::getNonEmptyInput(const string& prompt, const string& errorMessage) {
+    string input;
+    do {
+        input = getStringInput(prompt);
+        if (input.empty()) {
+			cout << endl << REDB << errorMessage <<  NC << endl;
+        }
+    } while (input.empty());
+    return input;
 }
 
 int Menu::selectOption() {
@@ -41,7 +80,7 @@ int Menu::selectOption() {
 	string startString = "0";
 	string addedString = "";
 
-	viewMainMenu();
+	Menu::viewMainMenu();
 	do {
 		cout << GREEN "Ingresa una opción(1..6): " NC;
 		cin >> addedString;
@@ -58,27 +97,8 @@ int Menu::selectOption() {
 }
 
 void Menu::toContinue() {
-	cout << CYAN "Presiona ENTER para continuar..." NC;
+	cout << endl <<  CYAN "Presiona ENTER para continuar..." NC;
 	getchar();
-}
-
-int getIntegerInput(const string& prompt) {
-    string input;
-    int number;
-
-    while (true) {
-        cout << prompt;
-        getline(cin, input);
-
-        try {
-            number = stoi(input);
-            break; // Salir del bucle si la conversión fue exitosa
-        } catch (const exception& e) {
-            cout << "Error: Ingrese un número entero válido." << std::endl;
-        }
-    }
-
-    return number;
 }
 
 void Menu::exit() {
@@ -86,58 +106,87 @@ void Menu::exit() {
 }
 
 void Menu::insertBook() {
-	bool existBook = true;
-	bool exit = false;
-	string respuesta = "";
-	string isbn, newTitle, newEdition, newAuthor;
+	bool existBook = true, exit = false, bookCreated = true, isbnEmpty = true;
+	string isbn, newTitle, newEdition, newAuthor, response;
 	int newPagesQty;
 
-	/* El único propósito de esta variable es guardar en ella lo que sea que traiga el buffer 
-	 asi se evita que se den posibles omisiones de ingresos */
-	string clearBuffer; 
-	getline(cin, clearBuffer);
+	/* El único propósito de este getchar omitir lo que sea que traiga el buffer asi se evita que se 
+	 den posibles omisiones de ingresos */
+	getchar();
 	
 	cout << CYAN "╔════════════════╗" << endl;
 	cout << "║ Insertar libro ║" << endl;
 	cout << "╚════════════════╝" NC << endl << endl;
 
-	while(existBook && !exit){
-		cout << "Ingrese el ISBN del libro: " << endl;
-		getline(cin.ignore(), isbn);
+	cout << CYAN "NOTA: Los campos con asterisco (*) son obligatorios." NC << endl << endl;
+
+	while (!exit && existBook) {
+		isbn = Menu::getNonEmptyInput("Ingrese el ISBN del libro (*): ", "El campo ISBN no puede quedar vacío");
 		existBook = controller->findBookByISBN(isbn);
-		if(existBook){
-			cout << endl << REDB "Ya existe un libro registrado con ese ISBN." NC << endl;
-			cout << "¿Deseas salir o ingresar otro ISBN? " << endl;
-			getline(cin.ignore(), respuesta);
-			exit = (respuesta == "Si") ? true : false;
+
+		if (existBook) {
+			cout << "Ya existe un libro registrado con ese ISBN." << endl;
+			response = Menu::getStringInput("¿Deseas salir o ingresar otro ISBN? (s para salir): ");
+			exit = (response == "s" || response == "S");
 		}
-	}
+    }
+	if(exit){ return; } // Se termina la ejecución si el usuario desea no ingresar otro ISBN.
 
-	cout << "Ingrese el título del libro: " << endl;
-	getline(cin.ignore(), newTitle);
+	newTitle = Menu::getStringInput("Ingrese el título del libro: ");
+	newEdition = Menu::getStringInput("Ingrese la edición del libro: ");
+	newAuthor = Menu::getStringInput("Ingrese el autor del libro: ");
 
-	cout << "Ingrese la edición del libro: " << endl;
-	getline(cin.ignore(), newEdition);
-
-	cout << "Ingrese el autor del libro: " << endl;
-	getline(cin.ignore(), newAuthor);
-
-	string mensaje = "Ingrese cantidad de páginas del libro: ";
-	newPagesQty = getIntegerInput(string); //validar que sea int
+	/* Se asegura que el usuario ingrese un número entero */
+	newPagesQty = Menu::getIntegerInput("Ingrese cantidad de páginas del libro. (0 para omitir): ");
 
 	DTBook newBook(isbn, newTitle, newEdition, newAuthor, newPagesQty);
-	controller->createBook(newBook);
-
-	cout << "El Libro fue añadido correctamente!" << endl;
-	getchar();
+	bookCreated = controller->createBook(newBook);
+	if(bookCreated){ cout << endl << GREEN "El libro fue añadido correctamente!" NC << endl; }
 }
 
 void Menu::deleteBook() {
-	string isbn = "";
+	bool existBook = false, exit = false,bookDeleted = true, isbnEmpty = true;
+	string isbn, response;
+
+	getchar();
+
 	cout << CYAN "╔══════════════╗" << endl;
 	cout << "║ Borrar libro ║" << endl;
 	cout << "╚══════════════╝" NC << endl << endl;
-	controller->deleteBookByISBN(isbn);
+
+	// Se pide un ISBN para chequear si existe el libro en la BD
+	while (!exit && !existBook) {
+		isbn = Menu::getNonEmptyInput("Ingrese el ISBN del libro a eliminar: ", "El campo ISBN no puede quedar vacío");
+		existBook = controller->findBookByISBN(isbn);
+
+		if (!existBook) {
+			cout << "No existe un libro con el ISBN que has ingresado." << endl;
+			response = Menu::getStringInput("¿Deseas salir o ingresar otro ISBN? (s para salir): ");
+			exit = (response == "s" || response == "S");
+		}
+    }
+	if(exit){ return; } // Se termina la ejecución si el usuario desea no ingresar otro ISBN.
+
+	// Como existe el libro que se desea eliminar, se debe mostrar sus datos
+	// controller->getBookByISBN(isbn);
+	
+	//3. Si confirma el usuario se borra el libro
+	// 	char confirm;
+	// 	cout << "¿Está seguro que desea eliminar este libro? (S/N): ";
+	// 	cin >> confirm;
+
+	// 	if (confirm == 'S' || confirm == 's') {
+
+	// 		cout << "El libro ha sido eliminado correctamente." << endl;
+	// 	} else {
+	// 		cout << "La eliminación del libro ha sido cancelada." << endl;
+	// 	}
+	// } else {
+	// 	cout << "No se encontró un libro con el ID especificado." << endl;
+	// }
+
+	bookDeleted = controller->deleteBookByISBN(isbn);
+	if(bookDeleted){ cout << endl << GREEN "El libro fue eliminado correctamente!" NC << endl; }
 	getchar();
 }
 
@@ -160,10 +209,11 @@ void Menu::viewBook() {
 }
 
 void Menu::viewBooks() {
+	vector<DTBook*> bookList;
 	cout << CYAN "╔═══════════════════╗" << endl;
 	cout << "║ Listado de libros ║" << endl;
 	cout << "╚═══════════════════╝" NC << endl << endl;
-	controller->getAllBooks();
+	bookList = controller->getAllBooks();
 	getchar();
 }
 

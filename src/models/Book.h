@@ -3,7 +3,10 @@
 
 #include <iostream>
 #include <string.h>
+
+#include "../datatypes/DTBook.h"
 using namespace std;
+
 
 class Book {
 	private:
@@ -14,12 +17,19 @@ class Book {
 		int qtyPages;
 	public:
         ~Book();
-		Book(string Isbn, string Title, string Edition, string Author, int qtyPages);
+		Book();
+		Book(DTBook newBook);
 		string getIsbn();
 		string getTitle();
 		string getEdition();
 		string getAuthor();
 		int getQtyPages();
+		void setIsbn(string isbn);
+		void setTitle(string title);
+		void setEdition(string edition);
+		void setAuthor(string author);
+		void setQtyPages(int qtyPages);
+
 };
 
 #endif // BOOK_H_

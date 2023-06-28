@@ -1,18 +1,20 @@
 #include "Book.h"
-#include <iostream>
-#include <stdlib.h>
 using namespace std;
 
 Book::~Book() {
 
 }
 
-Book::Book(string Isbn, string Title, string Edition, string Author, int QtyPages) {
-	this->isbn = Isbn;
-	this->title = Title;
-	this->edition = Edition;
-	this->author = Author;
-	this->qtyPages = QtyPages; 
+Book::Book(){
+
+}
+
+Book::Book(DTBook newBook) {
+	this->isbn = newBook.getIsbn();
+	this->title = newBook.getTitle();
+	this->edition = newBook.getEdition();
+	this->author = newBook.getAuthor();
+	this->qtyPages = newBook.getQtyPages(); 
 }
 
 string Book::getIsbn() {
@@ -35,3 +37,22 @@ int Book::getQtyPages() {
 	return this->qtyPages;
 }
 
+void Book::setIsbn(string isbn) {
+	this->isbn = isbn;
+}
+
+void Book::setTitle(string title){
+	this->title = title;
+}
+
+void Book::setEdition(string edition) {
+	this->edition = edition;
+}
+
+void Book::setAuthor(string author) {
+	this->author = author;
+}
+
+void Book::setQtyPages(int qtyPages) {
+	this->qtyPages = qtyPages;
+}

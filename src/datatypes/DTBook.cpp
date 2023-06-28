@@ -1,6 +1,5 @@
 #include "DTBook.h"
-#include <iostream>
-#include <stdlib.h>
+
 using namespace std;
 
 DTBook::~DTBook() {
@@ -33,4 +32,15 @@ string DTBook::getAuthor() {
 
 int DTBook::getQtyPages() {
 	return this->qtyPages;
+}
+
+/* sobrecarga del '<<' para poder imprimir todos los datos del DTBook */
+ostream& operator<< (ostream& salida, DTBook book) {
+	string qtyPages = (book.getQtyPages() != 0 ? to_string(book.getQtyPages()) : " ");
+	salida << "ISBN: " << book.getIsbn() << endl << 
+		"Título: " << book.getTitle() << endl << 
+		"Edición: " << book.getEdition() << endl << 
+		"Autor: " << book.getAuthor() << endl <<
+		"Cantidad de páginas: " << qtyPages << endl ;
+	return salida;
 }

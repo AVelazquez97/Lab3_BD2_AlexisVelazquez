@@ -1,8 +1,9 @@
 #ifndef ICONTROLLER_H_
 #define ICONTROLLER_H_
 
-#include <ctime>
 #include <iostream>
+#include <vector>
+#include <optional>
 
 using namespace std;
 
@@ -18,13 +19,15 @@ class IController {
 
         /* Operaciones auxiliares */
         virtual bool findBookByISBN(string isbn) = 0;
+        virtual void addBook(DTBook* book) = 0; 
+        virtual void removeBook(DTBook* book) = 0;
         
         /* Operaciones solicitadas */
-        virtual void createBook(DTBook newBook) = 0;
-        virtual void deleteBookByISBN(string isbn) = 0;
-        virtual void updateBookByISBN(string isbn) = 0;
+        virtual bool createBook(DTBook newBook) = 0;
+        virtual bool deleteBookByISBN(string isbn) = 0;
+        virtual bool updateBookByISBN(string isbn) = 0;
         virtual void getBookByISBN(string isbn) = 0;
-	    virtual void getAllBooks() = 0;
+	    virtual vector <DTBook*> getAllBooks() = 0;
 };
 
 #endif // ICONTROLLER_H_

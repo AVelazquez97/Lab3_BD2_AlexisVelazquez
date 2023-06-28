@@ -20,6 +20,7 @@ class DTBook {
 		string getEdition();
 		string getAuthor();
 		int getQtyPages();
+		friend ostream& operator << (ostream& salida, DTBook book);
 };
 
 #endif // DATATYPES_DTBOOK_H_
