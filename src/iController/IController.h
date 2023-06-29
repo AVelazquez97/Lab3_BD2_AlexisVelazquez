@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <vector>
-#include <optional>
+#include <memory>
 
 using namespace std;
 
@@ -18,16 +18,14 @@ class IController {
         virtual ~IController();
 
         /* Operaciones auxiliares */
-        virtual bool findBookByISBN(string isbn) = 0;
-        virtual void addBook(DTBook* book) = 0; 
-        virtual void removeBook(DTBook* book) = 0;
+        virtual bool findBookByISBN(string isbn) = 0; 
         
         /* Operaciones solicitadas */
         virtual bool createBook(DTBook newBook) = 0;
         virtual bool deleteBookByISBN(string isbn) = 0;
-        virtual bool updateBookByISBN(string isbn) = 0;
-        virtual void getBookByISBN(string isbn) = 0;
-	    virtual vector <DTBook*> getAllBooks() = 0;
+        virtual bool updateBookByISBN(DTBook modifiedBook) = 0;
+        virtual DTBook getBookByISBN(string isbn) = 0;
+	    virtual vector<DTBook> getAllBooks(string order) = 0;
 };
 
 #endif // ICONTROLLER_H_

@@ -9,9 +9,6 @@ BookController::BookController() {
 
 BookController::~BookController() {
     /* Se liberan los recursos utilizados por la clase */
-    for (auto book : bookList) {
-        delete book;
-    }
     delete this->bookDAL;  // Liberar la instancia del BookDAL
 }
 
@@ -32,18 +29,6 @@ bool BookController::findBookByISBN(string isbn) {
     existBook = this->bookDAL->findBookByISBN(isbn);
     delete this->bookDAL;
     return existBook;
-}
-
-void BookController::addBook(DTBook* book) {
-    bookList.push_back(book);
-}
-
-void BookController::removeBook(DTBook* book) {
-    // Buscar y eliminar el libro de la lista
-    auto it = find(bookList.begin(), bookList.end(), book);
-    if (it != bookList.end()) {
-        bookList.erase(it);
-    }
 }
 
 /* Métodos solicitados */
@@ -67,23 +52,54 @@ bool BookController::deleteBookByISBN(string isbn) {
     return result;
 }
 
-bool BookController::updateBookByISBN(string isbn) {
+bool BookController::updateBookByISBN(DTBook modifiedBook) {
+    bool result;
+    Book* bookObj = new Book(modifiedBook);
     this->bookDAL = new BookDAL();
-    this->bookDAL->updateBookByISBN(isbn); 
+    
+    result = this->bookDAL->updateBookByISBN(bookObj); 
+
     delete this->bookDAL;
+    delete bookObj;
+    return result;
 }
 
-void BookController::getBookByISBN(string isbn) {
+DTBook BookController::getBookByISBN(string isbn) {
     this->bookDAL = new BookDAL();
-    isbn = "9781401952010";
-	this->bookDAL->getBookByISBN(isbn);
+    unique_ptr<Book> bookPtr = this->bookDAL->getBookByISBN(isbn);
+    
+    if(!bookPtr){ throw invalid_argument("¡No se encontró ningun libro con el ISBN recibido.!"); };
+
+    DTBook book (
+        bookPtr->getIsbn(),
+        bookPtr->getTitle(),
+        bookPtr->getEdition(),
+        bookPtr->getAuthor(),
+        bookPtr->getQtyPages()
+    );
+
     delete this->bookDAL;
+    return book;
 }
 
-vector <DTBook*> BookController::getAllBooks() {
+vector <DTBook> BookController::getAllBooks(string order) {
     this->bookDAL = new BookDAL();
-    this->bookDAL->getAllBooks();
+    vector<unique_ptr<Book>> books = this->bookDAL->getAllBooks(order);
+    vector<DTBook> booklist;
+
+    if(books.empty()){ throw invalid_argument("Aún no hay libros en la base de datos."); };
+    
+    for (const auto& bookPtr : books) {
+        DTBook book (
+            bookPtr->getIsbn(),
+            bookPtr->getTitle(),
+            bookPtr->getEdition(),
+            bookPtr->getAuthor(),
+            bookPtr->getQtyPages()
+        );
+        booklist.push_back(book);
+    }
     delete this->bookDAL;
-    return this->bookList;
+    return booklist;
 }
 	

@@ -1,5 +1,6 @@
 crud: main.o Menu.o Factory.o IController.o BookController.o
 	g++ -o crud build/*.o -I/usr/include/ -lmysqlcppconn
+	clear
 
 main.o: src/main.cpp
 	g++ -c src/main.cpp -o build/main.o

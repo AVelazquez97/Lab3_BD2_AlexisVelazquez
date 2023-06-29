@@ -2,9 +2,8 @@
 #define MENU_H_
 
 #include <iostream>
-#include <cmath>
-#include <cstring>
 #include <vector>
+#include <iomanip>
 
 #define NC "\e[0m"
 #define RED "\e[0;31m"
@@ -21,12 +20,13 @@
 class Menu {
 	private:
 		static void viewMainMenu();
+		static void viewHeaders();
 		static int getIntegerInput(const string& prompt);
 		static string getStringInput(const string& prompt);
 		static string getNonEmptyInput(const string& prompt, const string& errorMessage);
 
 	public:
-		static int selectOption();
+		static int selectOptionFromMenu();
 		static void toContinue();
 		static void exit();
 

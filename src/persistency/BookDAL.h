@@ -2,7 +2,8 @@
 #define PERSISTENCY_BOOKDAL_H_
 
 #include <iostream>
-#include <optional>
+#include <memory>
+#include <vector>
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
 #include <cppconn/prepared_statement.h>
@@ -32,9 +33,9 @@ class BookDAL {
 		/* Operaciones solicitadas */
 		bool insertABook(Book* book);
 		bool deleteBookByISBN(string isbn);
-		bool updateBookByISBN(string isbn);
-		Book* getBookByISBN(string isbn);
-		void getAllBooks();
+		bool updateBookByISBN(Book* book);
+		unique_ptr<Book> getBookByISBN(string isbn);
+		vector<unique_ptr<Book>> getAllBooks(string order);
 };
 
 #endif // PERSISTENCY_BOOKDAL_H_

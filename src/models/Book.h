@@ -2,7 +2,8 @@
 #define BOOK_H_
 
 #include <iostream>
-#include <string.h>
+#include <memory>
+#include <string>
 
 #include "../datatypes/DTBook.h"
 using namespace std;
@@ -29,7 +30,6 @@ class Book {
 		void setEdition(string edition);
 		void setAuthor(string author);
 		void setQtyPages(int qtyPages);
-
 };
 
 #endif // BOOK_H_

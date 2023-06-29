@@ -38,7 +38,7 @@ Este menú se visualiza de la siguiente manera:
 
 - Instalación de MySQL Server por línea de comando:
 	
-    `sudo apt update`
+  `sudo apt update`
 
 	`sudo apt install mysql-server`
 
@@ -55,6 +55,7 @@ Este menú se visualiza de la siguiente manera:
 	`sudo systemctl start mysql`
 
 - Securización de MySQL Server (opcional):
+
 	El siguiente comando ayuda a configurar parámetros de seguridad al servidor de MySQL:
 	
     `sudo mysql_secure_installation`
@@ -67,6 +68,7 @@ Este menú se visualiza de la siguiente manera:
 ## B. Creación de la base de datos
 
 - Ingreso a MySQL Server:
+
     `sudo mysql -h localhost -root -p`
 
 - Creación de la BD biblioteca y su usuario asignado "tecnologo":
@@ -104,7 +106,7 @@ Este menú se visualiza de la siguiente manera:
 
     `dpkg -L libmysqlcppconn-dev`
 
-- En este caso, como se almacenaron en la ruta "/usr/include/", la misma se debe utilizar al momento de compilar el 
+- En este caso, como se almacenaron en la ruta `/usr/include/`, la misma se debe utilizar al momento de compilar el 
   código fuente que dependa del conector. Por ejemplo: 
 	
     `g++ -o main main.cpp -I/usr/include/ -lmysqlcppconn`
@@ -126,31 +128,71 @@ Este menú se visualiza de la siguiente manera:
 
 ## A. Compilación
 
-Para este desarrollo se utiliza el compilador g++ y un fichero makefile.
-Este fichero contiene las instrucciones de compilación y es ejecutado por la herramiente make.
+  Para este desarrollo se utiliza el compilador g++ y un fichero makefile.
+  Este fichero contiene las instrucciones de compilación y es ejecutado por la herramiente make.
 
-Para instalar la herramienta make es necesario ingresar los siguientes comandos desde terminal:
+  Para instalar la herramienta make es necesario ingresar los siguientes comandos desde terminal:
 
-`sudo apt update`
+  `sudo apt update`
 
-`sudo apt install build-essential make`
+  `sudo apt install build-essential make`
 
-Luego de instalar la herramienta, es necesario posicionarse en el directorio raíz del proyecto e ingresar el comando "make". 
-Este, leerá el fichero makefile, almacenará todos los ficheros .o en el directorio build, y generará el fichero "crud" compilado
-en el directorio raíz.
+  Luego de instalar la herramienta, es necesario posicionarse en el directorio raíz del proyecto e ingresar el comando `make`. 
+  Este, leerá el fichero makefile, almacenará todos los ficheros `.o` en el directorio `build`, y generará el fichero `crud` compilado
+  en el directorio raíz.
 
 ## B. Ejecución
 
-Teniendo compilado el proyecto, basta con posicionarse en el directorio raíz desde terminal y ejecutar el programa.
-Esto se logra con el siguiente comando: 
+  Teniendo compilado el proyecto, basta con posicionarse en el directorio raíz desde terminal y ejecutar el programa.
+  Esto se logra con el siguiente comando: 
 
-`./crud`
+  `./crud`
 
-Un aspecto a tener en cuenta es que si al ejecutar el crud, no se encuentra el servicio de mysql activo,
-se lanzará una excepción del siguiente estilo:
+  Un aspecto a tener en cuenta es que si al ejecutar el crud, no se encuentra el servicio de mysql activo,
+  se lanzará una excepción del siguiente estilo:
 
-`Error de MySQL: 2003 - Can't connect to MySQL server on 'localhost' (111)`
+  `Error de MySQL: 2003 - Can't connect to MySQL server on 'localhost' (111)`
 
 - - -
 
 # 3. Tecnologías y librerías utilizadas
+
+  - Sistema Operativo:
+    - Ubuntu 18.04.6 LTS
+
+  - Compilador: 
+    - g++ (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
+  
+  - Herramientas:
+    - C++14 (versión que utiliza el compilador)
+    - mysql  Ver 14.14 Distrib 5.7.42, for Linux (x86_64) using  EditLine wrapper
+    - GNU Make 4.1
+
+  - Librerías estándar de C++:
+    
+    - **iostream**:
+      proporciona las funcionalidades de entrada y salida de datos, como la lectura y escritura en la consola.
+    
+    - **string**:
+      proporciona funciones para manejar cadenas de caracteres de forma segura y eficiente.
+    
+    - **vector**:
+      proporciona una implementación de un contenedor de tipo vector, que es una secuencia dinámica de elementos.
+    
+    - **iomanip**:
+      proporciona manipuladores de formato para controlar el formato de la salida, como setw() para especificar el ancho de campo.
+
+    - **memory**:
+      proporciona componentes para el manejo de memoria, como la gestión de punteros inteligentes con unique_ptr y shared_ptr.
+
+  - Librerías relacionadas con MySQL:
+    - mysql_driver.h 
+    - mysql_connection.h
+    - cppconn/resultset.h
+    - cppconn/statement.h
+    - cppconn/prepared_statement.h
+
+      **Estas librerías no forman parte del estándar de C++.**
+      
+      **Son parte de la biblioteca de conectividad de MySQL para C++ conocida como "MySQL Connector/C++".**
+      **Proporcionan las funcionalidades necesarias para conectarse y manipular bases de datos MySQL en C++.**

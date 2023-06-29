@@ -82,16 +82,32 @@ bool BookDAL::deleteBookByISBN(string isbn) {
     return true;
 }
 
-bool BookDAL::updateBookByISBN(string isbn) {
+bool BookDAL::updateBookByISBN(Book* book) {
     if (this->isConnectedToDB()) {
+        try {
+            string qry = "UPDATE " + this->table + " SET titulo = ?, edicion = ?, autor = ?, cantPaginas = ? WHERE isbn = ?";
+            this->preparedStatement = this->connection->prepareStatement(qry);
 
+            this->preparedStatement->setString(1, book->getTitle());
+            this->preparedStatement->setString(2, book->getEdition());
+            this->preparedStatement->setString(3, book->getAuthor());
+            this->preparedStatement->setInt(4, book->getQtyPages());
+            this->preparedStatement->setString(5, book->getIsbn());
+
+            this->preparedStatement->executeUpdate();
+            delete this->preparedStatement;
+        } catch (sql::SQLException& e) {
+            cout << endl << REDB "Error de MySQL: " << e.getErrorCode() << " - " << e.what() << "" NC << endl << endl;
+            return false;
+        }
+
+        return true;
     }
-    return true;
 }
 
-// optional<Book> BookDAL::getBookByISBN(string isbn) {
-Book* BookDAL::getBookByISBN(string isbn) {
-    Book* bookObj = nullptr;
+/// @return retorna un puntero unico, el cual es autogestionable y libera automaticamente la memoria utilizada
+unique_ptr<Book> BookDAL::getBookByISBN(string isbn) {
+    unique_ptr<Book> book;
     if (this->isConnectedToDB()) {
         try {
             string getQry = "SELECT * FROM " + this->table + " WHERE isbn = ?";
@@ -100,44 +116,50 @@ Book* BookDAL::getBookByISBN(string isbn) {
             this->result = preparedStatement->executeQuery();
 
             if (this->result->next()) {
-                bookObj = new Book();
+                unique_ptr<Book> bookObj = make_unique<Book>();
                 bookObj->setIsbn(this->result->getString("isbn"));
                 bookObj->setTitle(this->result->getString("titulo"));
                 bookObj->setEdition(this->result->getString("edicion"));
                 bookObj->setAuthor(this->result->getString("autor"));
                 bookObj->setQtyPages(this->result->getInt("cantPaginas")); 
+                book = move(bookObj);
             }
-    
+
             delete this->result;
             delete this->preparedStatement;
         } catch (sql::SQLException &e) {
             cout << endl << REDB "Error de MySQL: " << e.getErrorCode() << " - " << e.what() << "" NC << endl << endl;
         }
     }
-    return bookObj;
+    return book;
 }
 
-void BookDAL::getAllBooks() {
-    if (this->isConnectedToDB()){
+/// @return retorna un vetor de punteros unicos, el cual es autogestionable y libera automaticamente la memoria utilizada
+vector<unique_ptr<Book>> BookDAL::getAllBooks(string order) {
+    vector<unique_ptr<Book>> books;
+    if (this->isConnectedToDB()) {
         try {
-            string qry = "SELECT * FROM " + this->table;
+            string getQry = "SELECT * FROM " + this->table + " ORDER BY isbn " + order;
             // Se intenta crear una declaración para ejecutar la consulta SELECT
             this->statement = this->connection->createStatement();
-            this->result = this->statement->executeQuery(qry);
+            this->result = this->statement->executeQuery(getQry);
 
-            // Itera sobre los resultados y muestra los registros
+            // Itera sobre los resultados y se almacena cada columna
             while (this->result->next()) {
-                cout << "ISBN: " << this->result->getString("isbn") << endl;
-                cout << "Título: " << this->result->getString("titulo") << endl;
-                cout << "Autor: " << this->result->getString("edicion") << endl;
-                cout << "Autor: " << this->result->getString("autor") << endl;
-                cout << "Total de Páginas: " << this->result->getInt("cantPaginas") << endl;
-                cout << GREEN "---------------------------------------------------------" NC << endl << endl;
+                unique_ptr<Book> book = make_unique<Book>();
+                book->setIsbn(this->result->getString("isbn"));
+                book->setTitle(this->result->getString("titulo"));
+                book->setEdition(this->result->getString("edicion"));
+                book->setAuthor(this->result->getString("autor"));
+                book->setQtyPages(this->result->getInt("cantPaginas"));
+                books.push_back(move(book));
             }
+
             delete this->result;
             delete this->statement;
-        } catch (sql::SQLException &e) {
+        } catch (sql::SQLException& e) {
             cout << endl << REDB "Error de MySQL: " << e.getErrorCode() << " - " << e.what() << "" NC << endl << endl;
         }
     }
+    return books;
 }

@@ -6,7 +6,7 @@ int main(int argc, char* argv[]) {
     int option = 0;
 
     while(option != 6) {
-		option = Menu::selectOption();
+		option = Menu::selectOptionFromMenu();
 		switch (option){
 			case 1: { //Ingreso
                 Menu::insertBook();
